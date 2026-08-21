@@ -1,0 +1,41 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: user-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/user_service_db
+    username: postgres
+    password: abhi
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+jwt:
+  # In production, load this from an environment variable / secret manager, never hardcode.
+  secret: "replace-this-with-a-long-random-base64-secret-min-256-bits-for-hs256"
+  expiration-ms: 3600000   # 1 hour
+
+logging:
+  level:
+    com.ecommerce.userservice: DEBUG
+    org.springframework.security: INFO
+
+springdoc:
+  swagger-ui:
+    # Changes the visual browser UI path (Default is /swagger-ui/index.html)
+    path: /swagger-ui.html
+    # Sorts the endpoints alphabetically by HTTP method
+    operations-sorter: alpha
+  api-docs:
+    # Changes the raw JSON documentation path (Default is /v3/api-docs)
+    path: /api-docs
