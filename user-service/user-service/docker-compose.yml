@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  user-db:
+    image: postgres:16-alpine
+    container_name: user-service-db
+    environment:
+      POSTGRES_DB: user_service_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - user-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  user-service:
+    build: .
+    container_name: user-service
+    depends_on:
+      user-db:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://user-db:5432/user_service_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+
+volumes:
+  user-db-data:

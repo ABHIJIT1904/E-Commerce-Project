@@ -1,0 +1,40 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: product-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/product_service_db
+    username: postgres
+    password: abhi
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+# Base URL of User Service. Hardcoded for now since we're not using
+# service discovery (Eureka) yet — that's a later step in the roadmap.
+user-service:
+  base-url: http://localhost:8081
+
+logging:
+  level:
+    com.ecommerce.productservice: DEBUG
+
+springdoc:
+  swagger-ui:
+    # Changes the visual browser UI path (Default is /swagger-ui/index.html)
+    path: /swagger-ui.html
+    # Sorts the endpoints alphabetically by HTTP method
+    operations-sorter: alpha
+  api-docs:
+    # Changes the raw JSON documentation path (Default is /v3/api-docs)
+    path: /api-docs
